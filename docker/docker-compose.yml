@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: bitnami/mariadb:10.6
+    image: mariadb:10.6
     ports:
       - 3306:3306
     restart: always
@@ -14,8 +14,6 @@ services:
       timeout: 5s
       retries: 3
       start_period: 30s
-    networks:
-      - app-tier
 
   dataease:
     image: steedos/dataease:latest
@@ -42,10 +40,3 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
-    networks:
-      - app-tier
-
-
-networks:
-  app-tier:
-    driver: bridge
