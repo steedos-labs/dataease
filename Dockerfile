@@ -10,6 +10,8 @@ WORKDIR /opt/apps
 
 ADD core/core-backend/target/CoreApplication.jar /opt/apps/app.jar
 
+ADD docker/config/application.yml /opt/apps/config/
+
 ENV JAVA_APP_JAR=/opt/apps/app.jar
 ENV JAVA_OPTIONS="-Dfile.encoding=utf-8 -Dloader.path=/opt/apps -Dspring.config.additional-location=/opt/apps/config/"
 

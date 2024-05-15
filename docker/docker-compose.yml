@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: bitnami/mariadb:10.6
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      MARIADB_DATABASE: dataease
+      MARIADB_ROOT_PASSWORD: rootPassword
+    healthcheck:
+      test: "mysql -h127.0.0.1 -uroot -prootPassword -e 'SHOW DATABASES;'"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - app-tier
+
+  dataease:
+    image: steedos/dataease:latest
+    build:
+      context: ..
+      dockerfile: ./Dockerfile
+    restart: always
+    environment:
+      TZ: ${TZ:-Asia/Shanghai}
+      DE_MYSQL_HOST: mysql
+      DE_MYSQL_PORT: 3306
+      DE_MYSQL_DB: dataease
+      DE_MYSQL_USER: root
+      DE_MYSQL_PASSWORD: rootPassword
+      DE_MYSQL_PARAMS: "autoReconnect=false&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true"
+    ports:
+      - 8100:8100
+    healthcheck:
+      test: "check http://localhost:8100"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-tier
+
+
+networks:
+  app-tier:
+    driver: bridge
