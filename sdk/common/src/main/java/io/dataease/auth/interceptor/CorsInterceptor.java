@@ -68,7 +68,8 @@ public class CorsInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         addOriginList();
         String origin = request.getHeader("Origin");
-        boolean embedded = StringUtils.startsWithAny(request.getRequestURI(), "/assets/", "/js/");
+        // Steedos: always embedded
+        boolean embedded = true; // StringUtils.startsWithAny(request.getRequestURI(), "/assets/", "/js/");
         if ((StringUtils.isNotBlank(origin) && originList.contains(origin)) || busiOriginList.contains(origin) || embedded) {
             response.setHeader("Access-Control-Allow-Origin", embedded ? "*" : origin);
             response.setHeader("Access-Control-Allow-Credentials", "true");

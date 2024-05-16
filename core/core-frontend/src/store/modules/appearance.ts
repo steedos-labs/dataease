@@ -23,6 +23,8 @@ interface AppearanceState {
   showDemoTips?: boolean
   demoTipsContent?: string
   community: boolean
+  css?: string
+  js?: string
 }
 const { wsCache } = useCache()
 export const useAppearanceStore = defineStore('appearanceStore', {
@@ -43,7 +45,9 @@ export const useAppearanceStore = defineStore('appearanceStore', {
       loaded: false,
       showDemoTips: false,
       demoTipsContent: '',
-      community: true
+      community: true,
+      css: '',
+      js: ''
     }
   },
   getters: {
@@ -204,6 +208,20 @@ export const useAppearanceStore = defineStore('appearanceStore', {
       this.footContent = data.footContent
       if (this.name) {
         document.title = this.name
+      }
+      this.css = data.css
+      if (this.css) {
+        const style = document.createElement('style')
+        style.type = 'text/css'
+        style.appendChild(document.createTextNode(this.css))
+        document.head.appendChild(style)
+      }
+      this.js = data.js
+      if (this.js) {
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.text = this.js
+        document.head.appendChild(script)
       }
       const link = document.querySelector('link[rel="icon"]')
       if (link) {

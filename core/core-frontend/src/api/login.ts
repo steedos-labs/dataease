@@ -12,4 +12,5 @@ export const logoutApi = () => request.get({ url: '/logout' })
 
 export const refreshApi = () => request.get({ url: '/login/refresh' })
 
-export const uiLoadApi = () => request.get({ url: '/sysParameter/ui' })
+export const uiLoadApi = () =>
+  request.get({ url: 'https://hub.aws.steedos.cn/bi/sysParameter/ui' })
