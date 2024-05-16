@@ -204,7 +204,7 @@ onMounted(() => {
 }
 
 .logo {
-  width: 134px;
+  width: auto;
   height: 34px;
   margin-right: 48px;
   color: #ffffff;

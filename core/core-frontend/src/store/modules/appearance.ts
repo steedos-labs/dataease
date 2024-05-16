@@ -4,8 +4,9 @@ import { uiLoadApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
 import colorFunctions from 'less/lib/less/functions/color.js'
 import colorTree from 'less/lib/less/tree/color.js'
-const basePath = import.meta.env.VITE_API_BASEPATH
-const baseUrl = basePath + '/appearance/image/'
+// steedos: disable baseUrl
+// const basePath = import.meta.env.VITE_API_BASEPATH
+const baseUrl = '' //basePath + '/appearance/image/'
 interface AppearanceState {
   themeColor?: string
   customColor?: string
