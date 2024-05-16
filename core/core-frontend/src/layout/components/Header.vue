@@ -84,7 +84,7 @@ const aiTipsConfirm = () => {
 onMounted(() => {
   initShowSystem()
   initShowToolbox()
-  initAiBase()
+  // initAiBase()
 })
 </script>
 
@@ -108,17 +108,18 @@ onMounted(() => {
       <HeaderMenuItem v-for="menu in routers" :key="menu.path" :menu="menu"></HeaderMenuItem>
     </el-menu>
     <div class="operate-setting" v-if="!desktop">
+      <!--
       <XpackComponent jsname="c3dpdGNoZXI=" />
       <el-icon style="margin: 0 10px" class="ai-icon" v-if="aiBaseUrl && !showOverlay">
         <Icon name="dv-ai" @click="handleAiClick" />
       </el-icon>
       <ai-tips @confirm="aiTipsConfirm" v-if="showOverlay" class="ai-icon-tips"></ai-tips>
       <ToolboxCfg v-if="showToolbox" />
-      <TopDoc />
+      <TopDoc />-->
       <SystemCfg v-if="showSystem" />
       <AccountOperator />
-      <ai-component v-if="aiBaseUrl" :base-url="aiBaseUrl"></ai-component>
-      <div v-if="showOverlay" class="overlay"></div>
+      <!--<ai-component v-if="aiBaseUrl" :base-url="aiBaseUrl"></ai-component>
+      <div v-if="showOverlay" class="overlay"></div>-->
     </div>
   </el-header>
 </template>

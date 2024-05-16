@@ -24,7 +24,9 @@ interface LinkItem {
   link?: string
   method?: string
 }
-const linkList = ref([{ id: 5, label: t('common.about'), method: 'toAbout' }] as LinkItem[])
+const linkList = ref([
+  // { id: 5, label: t('common.about'), method: 'toAbout' }
+] as LinkItem[])
 
 const inPlatformClient = computed(() => !!wsCache.get('de-platform-client'))
 

@@ -34,6 +34,8 @@ import { useCache } from '@/hooks/web/useCache'
 const { wsCache } = useCache()
 const embeddedStore = useEmbedded()
 const basePath = import.meta.env.VITE_API_BASEPATH
+const authBasePath = import.meta.env.VITE_AUTH_API_BASEPATH || basePath
+const authApiList = import.meta.env.VITE_AUTH_API_LIST || ''
 
 const embeddedBasePath =
   basePath.startsWith('./') && basePath.length > 2 ? basePath.substring(2) : basePath
@@ -49,6 +51,7 @@ const getTimeOut = () => {
   let time = 100
   const url = PATH_URL + '/sysParameter/requestTimeOut'
   const xhr = new XMLHttpRequest()
+  xhr.withCredentials = true
   xhr.onreadystatechange = () => {
     if (xhr.readyState === 4 && xhr.status === 200) {
       if (xhr.responseText) {
@@ -68,7 +71,7 @@ const getTimeOut = () => {
     }
   }
 
-  xhr.open('get', url, false)
+  xhr.open('get', url, true)
   xhr.send()
   return time
 }
@@ -107,6 +110,12 @@ service.interceptors.request.use(
       config.baseURL = PATH_URL
     }
 
+    if (authBasePath && authApiList) {
+      const url = config.url as string
+      if (authApiList.split(',').indexOf(url) >= 0) {
+        config.baseURL = authBasePath
+      }
+    }
     if (linkStore.getLinkToken) {
       ;(config.headers as AxiosRequestHeaders)['X-DE-LINK-TOKEN'] = linkStore.getLinkToken
     } else if (embeddedStore.token) {

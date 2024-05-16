@@ -420,7 +420,7 @@ const getEmptyDesc = (): string => {
   background: #fff;
   border-radius: 4px;
   height: calc(100% - 280px);
-  margin-top: 16px;
+  x-margin-top: 16px;
 
   .select-type-list {
     width: 104px;

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import router from '@/router'
 import { store } from '@/store/index'
 import { uiLoadApi } from '@/api/login'
 import { useCache } from '@/hooks/web/useCache'
@@ -133,6 +134,11 @@ export const useAppearanceStore = defineStore('appearanceStore', {
       this.loaded = data
     },
     async setAppearance() {
+      const query = router.currentRoute.value.query || {}
+      console.log(query)
+      if (query.token) {
+        wsCache.set('user.token', query.token)
+      }
       const desktop = wsCache.get('app.desktop')
       if (desktop) {
         this.loaded = true
@@ -154,10 +160,6 @@ export const useAppearanceStore = defineStore('appearanceStore', {
         if (item.pkey === 'community') {
           isCommunity = true
         }
-      })
-      const searchParams = new URL(document.location.href).searchParams
-      searchParams.forEach((value, key) => {
-        data[key] = value
       })
 
       data.community = isCommunity

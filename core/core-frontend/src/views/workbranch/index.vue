@@ -274,7 +274,7 @@ const toTemplateMarketAdd = () => {
 }
 
 fillCardInfo()
-initMarketTemplate()
+// initMarketTemplate()
 </script>
 
 <template>
@@ -357,7 +357,7 @@ initMarketTemplate()
       </div>
     </div>
     <div class="template-market-dashboard">
-      <div class="template-market">
+      <div class="template-market" v-if="false">
         <div class="label">
           模板中心
           <div class="expand-all">
