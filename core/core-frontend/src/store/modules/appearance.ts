@@ -154,6 +154,11 @@ export const useAppearanceStore = defineStore('appearanceStore', {
           isCommunity = true
         }
       })
+      const searchParams = new URL(document.location.href).searchParams
+      searchParams.forEach((value, key) => {
+        data[key] = value
+      })
+
       data.community = isCommunity
       this.community = data.community
       if (this.community) {
