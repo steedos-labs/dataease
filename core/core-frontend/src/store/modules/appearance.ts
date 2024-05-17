@@ -218,20 +218,6 @@ export const useAppearanceStore = defineStore('appearanceStore', {
       if (this.name) {
         document.title = this.name
       }
-      this.css = data.css
-      if (this.css) {
-        const style = document.createElement('style')
-        style.type = 'text/css'
-        style.appendChild(document.createTextNode(this.css))
-        document.head.appendChild(style)
-      }
-      this.js = data.js
-      if (this.js) {
-        const script = document.createElement('script')
-        script.type = 'text/javascript'
-        script.text = this.js
-        document.head.appendChild(script)
-      }
       const link = document.querySelector('link[rel="icon"]')
       if (link) {
         if (this.web) {

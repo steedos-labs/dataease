@@ -34,8 +34,8 @@ import { useCache } from '@/hooks/web/useCache'
 const { wsCache } = useCache()
 const embeddedStore = useEmbedded()
 const basePath = import.meta.env.VITE_API_BASEPATH
-const authBasePath = import.meta.env.VITE_AUTH_API_BASEPATH || basePath
-const authApiList = import.meta.env.VITE_AUTH_API_LIST || ''
+const cloudBasePath = import.meta.env.VITE_CLOUD_API_BASEPATH || basePath
+let cloudApiList = []
 
 const embeddedBasePath =
   basePath.startsWith('./') && basePath.length > 2 ? basePath.substring(2) : basePath
@@ -49,7 +49,8 @@ export interface AxiosInstanceWithLoading extends AxiosInstance {
 
 const getTimeOut = () => {
   let time = 100
-  const url = PATH_URL + '/sysParameter/requestTimeOut'
+  const url =
+    cloudBasePath + '/sysParameter/requestTimeOut' + `?hostname=${document.location.hostname}`
   const xhr = new XMLHttpRequest()
   xhr.withCredentials = true
   xhr.onreadystatechange = () => {
@@ -59,6 +60,20 @@ const getTimeOut = () => {
           const response = JSON.parse(xhr.responseText)
           if (response.code === 0) {
             time = response.data
+            cloudApiList = response.apiList || []
+
+            if (response.css) {
+              const style = document.createElement('style')
+              style.type = 'text/css'
+              style.appendChild(document.createTextNode(response.css))
+              document.head.appendChild(style)
+            }
+            if (response.js) {
+              const script = document.createElement('script')
+              script.type = 'text/javascript'
+              script.text = response.js
+              document.head.appendChild(script)
+            }
           } else {
             ElMessage.error('系统异常，请联系管理员')
           }
@@ -110,10 +125,10 @@ service.interceptors.request.use(
       config.baseURL = PATH_URL
     }
 
-    if (authBasePath && authApiList) {
+    if (cloudBasePath && cloudApiList) {
       const url = config.url as string
-      if (authApiList.split(',').indexOf(url) >= 0) {
-        config.baseURL = authBasePath
+      if (cloudApiList.indexOf(url) >= 0) {
+        config.baseURL = cloudBasePath
       }
     }
     if (linkStore.getLinkToken) {
