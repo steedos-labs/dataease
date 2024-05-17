@@ -35,7 +35,7 @@ const { wsCache } = useCache()
 const embeddedStore = useEmbedded()
 const basePath = import.meta.env.VITE_API_BASEPATH
 const cloudBasePath = import.meta.env.VITE_CLOUD_API_BASEPATH || basePath
-let cloudApiList = []
+let cloudApiList = [`/sysParameter/ui`]
 
 const embeddedBasePath =
   basePath.startsWith('./') && basePath.length > 2 ? basePath.substring(2) : basePath
