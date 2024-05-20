@@ -34,7 +34,7 @@ import { useCache } from '@/hooks/web/useCache'
 const { wsCache } = useCache()
 const embeddedStore = useEmbedded()
 const basePath = import.meta.env.VITE_API_BASEPATH
-const cloudBasePath = import.meta.env.VITE_CLOUD_API_BASEPATH || basePath
+const cloudBasePath = window['VITE_CLOUD_API_URL'] || import.meta.env.VITE_CLOUD_API_URL || basePath
 let cloudApiList = [`/sysParameter/ui`]
 
 const embeddedBasePath =

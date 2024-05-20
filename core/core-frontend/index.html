@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/dataease.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Steedos BI</title>
+    <title>BI</title>
+    <script>
+      // 如果服务端指定了环境变量
+      if (!"process.env.VITE_CLOUD_API_URL".startsWith("process.env.")) {
+        window.VITE_CLOUD_API_URL = "process.env.VITE_CLOUD_API_URL"
+      }
+    </script>
   </head>
   <body>
     <div id="app"></div>

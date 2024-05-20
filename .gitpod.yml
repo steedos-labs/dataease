@@ -14,6 +14,6 @@ tasks:
       nvm use 16
       mvn clean install
       cd core
-      mvn clean package -Pstandalone -U -Dmaven.test.skip=true
+      mvn package -Pstandalone -U -Dmaven.test.skip=true
 
 
