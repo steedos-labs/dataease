@@ -9,8 +9,8 @@ tasks:
 
   - name: Build
     command: |
-      export sdkman_auto_answer=true
-      sdk install java 17.0.11-oracle
+      echo "y" | sdk install java 17.0.11-oracle
+      sdk use java 17.0.11-oracle
       nvm use 16
       mvn clean install
       cd core
