@@ -15,6 +15,7 @@
     <modules>
         <module>core-frontend</module>
         <module>core-backend</module>
+        <module>../sdk</module>
     </modules>
 
 </project>

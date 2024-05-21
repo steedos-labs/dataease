@@ -23,6 +23,12 @@ public class ResultResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> converterType, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+
+        // 如果是 application/javascript，不做任何处理
+        if (mediaType != null && MediaType.valueOf("application/javascript").includes(mediaType)) {
+            return o;
+        }
+
         // 处理空值
         if (o == null && StringHttpMessageConverter.class.isAssignableFrom(converterType)) {
             return null;

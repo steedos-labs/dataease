@@ -226,6 +226,19 @@ export const useAppearanceStore = defineStore('appearanceStore', {
           link['href'] = '/dataease.svg'
         }
       }
+
+      if (data.css) {
+        const style = document.createElement('style')
+        style.type = 'text/css'
+        style.appendChild(document.createTextNode(data.css))
+        document.head.appendChild(style)
+      }
+      if (data.js) {
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.text = data.js
+        document.head.appendChild(script)
+      }
     }
   }
 })

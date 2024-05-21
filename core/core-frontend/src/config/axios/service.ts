@@ -35,7 +35,8 @@ const { wsCache } = useCache()
 const embeddedStore = useEmbedded()
 const basePath = import.meta.env.VITE_API_BASEPATH
 const cloudBasePath = window['VITE_CLOUD_API_URL'] || import.meta.env.VITE_CLOUD_API_URL || basePath
-let cloudApiList = [`/sysParameter/ui`]
+const cloudApiList =
+  window['VITE_CLOUD_API_LIST'] || import.meta.env.VITE_CLOUD_API_LIST || `/sysParameter/ui`
 
 const embeddedBasePath =
   basePath.startsWith('./') && basePath.length > 2 ? basePath.substring(2) : basePath
@@ -49,8 +50,7 @@ export interface AxiosInstanceWithLoading extends AxiosInstance {
 
 const getTimeOut = () => {
   let time = 100
-  const url =
-    cloudBasePath + '/sysParameter/requestTimeOut' + `?hostname=${document.location.hostname}`
+  const url = basePath + '/sysParameter/requestTimeOut'
   const xhr = new XMLHttpRequest()
   xhr.withCredentials = true
   xhr.onreadystatechange = () => {
@@ -60,20 +60,6 @@ const getTimeOut = () => {
           const response = JSON.parse(xhr.responseText)
           if (response.code === 0) {
             time = response.data
-            cloudApiList = response.apiList || []
-
-            if (response.css) {
-              const style = document.createElement('style')
-              style.type = 'text/css'
-              style.appendChild(document.createTextNode(response.css))
-              document.head.appendChild(style)
-            }
-            if (response.js) {
-              const script = document.createElement('script')
-              script.type = 'text/javascript'
-              script.text = response.js
-              document.head.appendChild(script)
-            }
           } else {
             ElMessage.error('系统异常，请联系管理员')
           }
@@ -127,7 +113,7 @@ service.interceptors.request.use(
 
     if (cloudBasePath && cloudApiList) {
       const url = config.url as string
-      if (cloudApiList.indexOf(url) >= 0) {
+      if (cloudApiList.split(',').indexOf(url) >= 0) {
         config.baseURL = cloudBasePath
       }
     }

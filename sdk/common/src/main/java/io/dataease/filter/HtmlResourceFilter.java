@@ -43,44 +43,8 @@ public class HtmlResourceFilter implements Filter, Ordered {
             httpResponse.setHeader(HttpHeaders.EXPIRES, "0");
         }
 
-        // 判断请求是否为HTML文件
-        if (httpRequest.getRequestURI().endsWith(".html")) {
-            // 使用自定义的响应包装类
-            HtmlResponseWrapper responseWrapper = new HtmlResponseWrapper(httpResponse);
-            filterChain.doFilter(servletRequest, responseWrapper);
-
-            // 获取原始HTML内容
-            String originalHtml = new String(responseWrapper.getContent(), httpResponse.getCharacterEncoding());
-
-            // 重写HTML内容
-            String rewrittenHtml = rewriteHtml(originalHtml);
-
-            // 写回重写后的HTML内容
-            httpResponse.getWriter().write(rewrittenHtml);
-        } else {
-            // 继续执行过滤器链
-            filterChain.doFilter(servletRequest, httpResponse);
-        }
-    }
-
-   private String rewriteHtml(String originalHtml) {
-        // 获取所有环境变量
-        Map<String, String> env = System.getenv();
-
-        // 正则表达式匹配 process.env.xxx 格式的占位符
-        Pattern pattern = Pattern.compile("process\\.env\\.([a-zA-Z_][a-zA-Z0-9_]*)");
-        Matcher matcher = pattern.matcher(originalHtml);
-
-        // 替换匹配的占位符为环境变量值
-        StringBuffer buffer = new StringBuffer();
-        while (matcher.find()) {
-            String envVar = matcher.group(1);
-            String envValue = env.getOrDefault(envVar, "");
-            matcher.appendReplacement(buffer, envValue);
-        }
-        matcher.appendTail(buffer);
-
-        return buffer.toString();
+        // 继续执行过滤器链
+        filterChain.doFilter(servletRequest, httpResponse);
     }
 
     @Override
