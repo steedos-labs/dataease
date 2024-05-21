@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import io.dataease.api.permissions.login.dto.PwdLoginDTO;
 import io.dataease.auth.bo.TokenUserBO;
 import io.dataease.auth.vo.TokenVO;
+import io.dataease.utils.TokenUtils;
 import io.dataease.utils.LogUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,7 @@ public class SubstituleLoginServer {
         TokenUserBO tokenUserBO = new TokenUserBO();
         tokenUserBO.setUserId(1L);
         tokenUserBO.setDefaultOid(1L);
-        String md5Pwd = "83d923c9f1d8fcaa46cae0ed2aaa81b5";
+        String md5Pwd = TokenUtils.getJwtSecret();
         return generate(tokenUserBO, md5Pwd);
     }
 

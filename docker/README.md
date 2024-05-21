@@ -9,6 +9,8 @@
 ## 环境变量
 
 ```shell
+# JWT加密密钥, 默认：83d923c9f1d8fcaa46cae0ed2aaa81b5
+DE_JWT_SECRET=
 # Cloud API 服务器
 VITE_CLOUD_API_URL="https://hub.aws.steedos.cn/bi"
 # 重写的API清单，用逗号分隔

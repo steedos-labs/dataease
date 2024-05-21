@@ -32,5 +32,4 @@ public class AuthUtils {
         return userId.equals(SYS_ADMIN_UID);
     }
 
-
 }
