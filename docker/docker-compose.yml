@@ -24,6 +24,7 @@ services:
     environment:
       VITE_CLOUD_API_URL: "https://hub.aws.steedos.cn/bi"
       VITE_CLOUD_API_LIST: "/sysParameter/ui"
+      VITE_CLOUD_JS_URL: "https://hub.aws.steedos.cn/bi/frontend/sso.js"
       TZ: ${TZ:-Asia/Shanghai}
       DE_MYSQL_HOST: mysql
       DE_MYSQL_PORT: 3306

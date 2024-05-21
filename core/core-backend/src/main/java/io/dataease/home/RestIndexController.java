@@ -42,6 +42,46 @@ public class RestIndexController {
           jsScript += "window.VITE_CLOUD_API_URL = \"" + viteCloudApiUrl + "\"; \n";
         }
 
+        String viteCloudJsUrl = System.getenv("VITE_CLOUD_JS_URL");
+        if (viteCloudJsUrl != null && !viteCloudJsUrl.isEmpty()) {
+          jsScript += """
+          function loadScripts(urls) {
+            return Promise.all(
+              urls.map(url => {
+                return new Promise((resolve, reject) => {
+                  const script = document.createElement('script');
+                  script.src = url;
+                  script.onload = resolve;
+                  script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
+                  document.head.appendChild(script);
+                });
+              })
+            );
+          }
+
+          const viteCloudJsUrl = '%s';
+          const urls = viteCloudJsUrl.split(',');
+
+          loadScripts(urls)
+            .then(() => {
+              console.log('All external scripts loaded successfully');
+            })
+            .catch((error) => {
+              console.error(error.message);
+            });
+          """.formatted(viteCloudJsUrl);;
+        }
+
+        String viteCloudCssUrl = System.getenv("VITE_CLOUD_CSS_URL");
+        if (viteCloudCssUrl != null && !viteCloudCssUrl.isEmpty()) {
+          jsScript += """
+          const style = document.createElement('link')
+          style.type = 'text/css'
+          style.href = '%s'
+          document.head.appendChild(style)
+          """.formatted(viteCloudCssUrl);;
+        }
+        
         // Set the response headers and return the JavaScript
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, "application/javascript");
