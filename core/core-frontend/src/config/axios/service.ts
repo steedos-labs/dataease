@@ -48,6 +48,14 @@ export interface AxiosInstanceWithLoading extends AxiosInstance {
   ): Promise<R>
 }
 
+// 接受URL单点登录参数
+const query =
+  document.location.href.split('?').length > 1 ? document.location.href.split('?')[1] : ''
+const searchParams = new URLSearchParams(query)
+if (searchParams.get('user.token')) {
+  wsCache.set('user.token', searchParams.get('user.token'))
+}
+
 const getTimeOut = () => {
   let time = 100
   const url = basePath + '/sysParameter/requestTimeOut'

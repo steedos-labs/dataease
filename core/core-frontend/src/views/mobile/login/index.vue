@@ -102,7 +102,7 @@ const usernameEndValidate = ({ status, message }) => {
 <template>
   <div class="de-mobile-login" v-loading="duringLogin">
     <div class="mobile-login-content">
-      <img width="120" height="31" :src="mobileDeTop" alt="" />
+      <!--<img width="120" height="31" :src="mobileDeTop" alt="" />-->
       <div class="mobile-login-welcome">用户登录</div>
       <van-form @submit="onSubmit">
         <van-cell-group inset>
